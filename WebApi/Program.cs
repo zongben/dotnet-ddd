@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Services.AddMediatR(
     (config) =>
     {
@@ -18,7 +17,6 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 builder.Services.AddDbContext<AppDbContext>(opts =>
 {
     opts.UseSqlite("Data Source=../db/app.db");

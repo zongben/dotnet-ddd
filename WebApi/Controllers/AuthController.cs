@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebApi.Contract;
 using WebApi.Contract.Auth;
 
-[Route("api/[controller]")]
-[ApiController]
-public class AuthController : ControllerBase
+public class AuthController : ApiControllerBase
 {
     private readonly ISender _sender;
 
