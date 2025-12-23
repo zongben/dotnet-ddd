@@ -1,9 +1,10 @@
 using ApplicationLayer.UseCases.Auth.Command.Register;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Contract;
 using WebApi.Contract.Auth;
 
-[Route("auth")]
+[Route("api/[controller]")]
 [ApiController]
 public class AuthController : ControllerBase
 {
@@ -28,11 +29,11 @@ public class AuthController : ControllerBase
         return result.Match<ActionResult>(
             (data) =>
             {
-                return Ok(data);
+                return Ok(new OkResponse<RegisterResult>(data));
             },
             (err) =>
             {
-                return Conflict();
+                return Conflict(new ErrResponse(err));
             }
         );
     }

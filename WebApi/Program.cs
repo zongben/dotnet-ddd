@@ -4,6 +4,7 @@ using ApplicationLayer.Ports;
 using InfraLayer.Entity;
 using InfraLayer.Repositories;
 using Microsoft.EntityFrameworkCore;
+using WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,8 +34,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseCors(builder => builder.AllowAnyOrigin());
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.UseMiddleware<NotFoundMiddleware>();
 app.Run();
