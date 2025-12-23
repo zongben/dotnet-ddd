@@ -29,6 +29,11 @@ public class ErrResponse
         meta = err.Meta;
     }
 
+    public static ErrResponse UnAuthorized()
+    {
+        return new ErrResponse("UNAUTHORIZED");
+    }
+
     public static ErrResponse InternalServerError()
     {
         return new ErrResponse("INTERNAL_SERVER_ERROR");

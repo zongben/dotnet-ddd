@@ -1,9 +1,11 @@
 using ApplicationLayer.UseCases.Auth.Command.Register;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Contract;
 using WebApi.Contract.Auth;
 
+[AllowAnonymous]
 public class AuthController : ApiControllerBase
 {
     private readonly ISender _sender;
