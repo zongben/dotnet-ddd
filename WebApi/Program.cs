@@ -1,14 +1,8 @@
 using System.Reflection;
 using System.Text;
-using ApplicationLayer.Persistence;
-using ApplicationLayer.Ports;
-using InfraLayer.Entity;
-using InfraLayer.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using WebApi.Contract;
-using WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMediatR(
@@ -46,7 +40,25 @@ builder
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsJsonAsync(ErrResponse.UnAuthorized());
+                return;
             },
+            OnAuthenticationFailed = async context =>
+            {
+                if (context.Exception is SecurityTokenExpiredException)
+                {
+                    context.Response.StatusCode = 401;
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsJsonAsync(ErrResponse.TokenExpired());
+                    return;
+                }
+            },
+        };
+        options.Events.OnForbidden = async context =>
+        {
+            context.Response.StatusCode = 403;
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsJsonAsync(ErrResponse.Forbidden());
+            return;
         };
     });
 

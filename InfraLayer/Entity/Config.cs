@@ -1,4 +1,3 @@
-using InfraLayer.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 

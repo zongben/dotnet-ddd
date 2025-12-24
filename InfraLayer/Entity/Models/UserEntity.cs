@@ -1,8 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace InfraLayer.Entity.Models;
-
 [Table("User")]
 public class UserEntity
 {

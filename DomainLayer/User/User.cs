@@ -1,7 +1,3 @@
-using DomainLayer.Models;
-
-namespace DomainLayer.User;
-
 public class UserId : ValueObject
 {
     public string Value { get; }

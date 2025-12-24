@@ -1,7 +1,3 @@
-using DomainLayer.User;
-
-namespace ApplicationLayer.Persistence;
-
 public interface IUserRepository
 {
     Task<User?> GetUser(UserId userId);

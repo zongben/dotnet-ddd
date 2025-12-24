@@ -1,8 +1,3 @@
-using ApplicationLayer;
-using ApplicationLayer.Models;
-
-namespace WebApi.Contract;
-
 public class OkResponse<T>
 {
     public T? data { get; }
@@ -42,5 +37,15 @@ public class ErrResponse
     public static ErrResponse NotFound()
     {
         return new ErrResponse("NOT_FOUND");
+    }
+
+    public static ErrResponse Forbidden()
+    {
+        return new ErrResponse("FORBIDDEN");
+    }
+
+    public static ErrResponse TokenExpired()
+    {
+        return new ErrResponse("TOKEN_EXPIRED");
     }
 }

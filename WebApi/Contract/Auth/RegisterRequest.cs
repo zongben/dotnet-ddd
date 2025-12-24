@@ -1,5 +1,3 @@
-namespace WebApi.Contract.Auth;
-
 public record RegisterRequest
 {
     public required string Account { get; init; }

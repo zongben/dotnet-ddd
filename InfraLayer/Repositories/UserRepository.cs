@@ -1,10 +1,4 @@
-using ApplicationLayer.Persistence;
-using DomainLayer.User;
-using InfraLayer.Entity;
-using InfraLayer.Entity.Models;
 using Microsoft.EntityFrameworkCore;
-
-namespace InfraLayer.Repositories;
 
 public class UserRepository : IUserRepository
 {

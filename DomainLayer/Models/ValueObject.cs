@@ -1,5 +1,3 @@
-namespace DomainLayer.Models;
-
 public abstract class ValueObject : IEquatable<ValueObject>
 {
     public abstract IEnumerable<object> GetEqualityComponents();

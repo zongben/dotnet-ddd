@@ -1,5 +1,3 @@
-namespace ApplicationLayer.Models;
-
 public class OkResult<T>
 {
     public T? Data;

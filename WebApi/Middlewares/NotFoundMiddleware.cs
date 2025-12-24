@@ -1,7 +1,3 @@
-using WebApi.Contract;
-
-namespace WebApi.Middlewares;
-
 public class NotFoundMiddleware
 {
     private readonly RequestDelegate _next;
@@ -24,6 +20,7 @@ public class NotFoundMiddleware
         {
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsJsonAsync(ErrResponse.NotFound());
+            return;
         }
     }
 }

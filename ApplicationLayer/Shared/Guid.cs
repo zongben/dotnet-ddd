@@ -1,5 +1,3 @@
-namespace ApplicationLayer.Shared;
-
 public static class GID
 {
     public static string Create()

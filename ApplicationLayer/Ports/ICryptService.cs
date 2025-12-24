@@ -1,5 +1,3 @@
-namespace ApplicationLayer.Ports;
-
 public interface ICryptService
 {
     Task<string> Hash(string plain);

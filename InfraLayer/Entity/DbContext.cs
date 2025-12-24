@@ -1,7 +1,4 @@
-using InfraLayer.Entity.Models;
 using Microsoft.EntityFrameworkCore;
-
-namespace InfraLayer.Entity;
 
 public class AppDbContext : DbContext
 {
