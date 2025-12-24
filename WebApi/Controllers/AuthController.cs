@@ -30,7 +30,7 @@ public class AuthController : ApiControllerBase
             },
             (err) =>
             {
-                return Conflict(new ErrResponse(err));
+                return Conflict(new ErrResponse(err, "account is used"));
             }
         );
     }
@@ -48,7 +48,7 @@ public class AuthController : ApiControllerBase
             },
             (err) =>
             {
-                return Unauthorized(new ErrResponse(err));
+                return Unauthorized(new ErrResponse(err, "account or password is wrong"));
             }
         );
     }
