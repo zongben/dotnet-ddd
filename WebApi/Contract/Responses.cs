@@ -56,4 +56,9 @@ public class ErrResponse
     {
         return new ErrResponse("MISSING_TOKEN", "token is missing");
     }
+
+    public static ErrResponse RequestInvalid(string message)
+    {
+        return new ErrResponse("REQUEST_INVALID", message);
+    }
 }

@@ -13,13 +13,13 @@ public class AuthController : ApiControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult> Register([FromBody] RegisterRequest body)
+    public async Task<ActionResult> Register([FromBody] RegisterRequest req)
     {
         var command = new RegisterCommand
         {
-            Account = body.Account,
-            Password = body.Password,
-            UserName = body.UserName,
+            Account = req.Account,
+            Password = req.Password,
+            UserName = req.UserName,
         };
         var result = await _sender.Send(command);
 
@@ -36,9 +36,10 @@ public class AuthController : ApiControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult> Login([FromBody] LoginRequest body)
+    [Validate<LoginRequest>]
+    public async Task<ActionResult> Login([FromBody] LoginRequest req)
     {
-        var command = new LoginCommand() { Account = body.Account, Password = body.Password };
+        var command = new LoginCommand() { Account = req.Account, Password = req.Password };
         var result = await _sender.Send(command);
 
         return result.Match<ActionResult>(

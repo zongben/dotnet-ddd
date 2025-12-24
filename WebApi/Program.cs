@@ -9,7 +9,7 @@ builder.Services.AddMediatR(
     (config) =>
     {
         config.RegisterServicesFromAssembly(Assembly.Load("ApplicationLayer"));
-        config.LicenseKey = builder.Configuration["MediatR:LICENSE_KEY"];
+        // config.LicenseKey = builder.Configuration["MediatR:LICENSE_KEY"];
     }
 );
 builder.Services.AddControllers();
@@ -75,7 +75,9 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddSingleton<ICryptService>(new CryptService());
 builder.Services.AddSingleton<ITokenService>(new TokenService(builder.Configuration));
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+builder.Services.AddRepositories();
+builder.Services.AddValidators();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
