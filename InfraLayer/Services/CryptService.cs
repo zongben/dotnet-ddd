@@ -12,9 +12,13 @@ public class CryptService : ICryptService
         var salt = new byte[SaltSize];
         rng.GetBytes(salt);
 
-        using var crypt = new Rfc2898DeriveBytes(plain, salt, Iterations, HashAlgorithmName.SHA256);
-
-        var key = crypt.GetBytes(KeySize);
+        var key = Rfc2898DeriveBytes.Pbkdf2(
+            plain,
+            salt,
+            Iterations,
+            HashAlgorithmName.SHA256,
+            KeySize
+        );
 
         var hashedBytes = new byte[SaltSize + KeySize];
         Buffer.BlockCopy(salt, 0, hashedBytes, 0, SaltSize);
@@ -33,9 +37,13 @@ public class CryptService : ICryptService
         var key = new byte[KeySize];
         Buffer.BlockCopy(hashBytes, SaltSize, key, 0, KeySize);
 
-        using var crypt = new Rfc2898DeriveBytes(plain, salt, Iterations, HashAlgorithmName.SHA256);
-
-        var keyToCheck = crypt.GetBytes(KeySize);
+        var keyToCheck = Rfc2898DeriveBytes.Pbkdf2(
+            plain,
+            salt,
+            Iterations,
+            HashAlgorithmName.SHA256,
+            KeySize
+        );
 
         var verified = CryptographicOperations.FixedTimeEquals(key, keyToCheck);
         return Task.FromResult(verified);
