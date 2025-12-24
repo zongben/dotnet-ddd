@@ -2,6 +2,6 @@ public static class GID
 {
     public static string Create()
     {
-        return Guid.CreateVersion7().ToString();
+        return Guid.CreateVersion7().ToString("N");
     }
 }
