@@ -24,9 +24,9 @@ public class ErrResponse
         meta = err.Meta;
     }
 
-    public static ErrResponse UnAuthorized()
+    public static ErrResponse InvalidToken()
     {
-        return new ErrResponse("UNAUTHORIZED");
+        return new ErrResponse("INVALID_TOKEN");
     }
 
     public static ErrResponse InternalServerError()
@@ -47,5 +47,10 @@ public class ErrResponse
     public static ErrResponse TokenExpired()
     {
         return new ErrResponse("TOKEN_EXPIRED");
+    }
+
+    public static ErrResponse MissingToken()
+    {
+        return new ErrResponse("MISSING_TOKEN");
     }
 }

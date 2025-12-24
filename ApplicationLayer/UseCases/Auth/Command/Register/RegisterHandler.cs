@@ -1,18 +1,16 @@
 using MediatR;
 using OneOf;
 
-namespace ApplicationLayer.UseCases.Auth.Command.Register;
+public record RegisterResult
+{
+    public required string Account { get; init; }
+    public required string UserName { get; init; }
+}
 
 public record RegisterCommand : IRequest<OneOf<OkResult<RegisterResult>, ErrResult<ERROR_CODES>>>
 {
     public required string Account { get; init; }
     public required string Password { get; init; }
-    public required string UserName { get; init; }
-}
-
-public record RegisterResult
-{
-    public required string Account { get; init; }
     public required string UserName { get; init; }
 }
 

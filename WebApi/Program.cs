@@ -9,6 +9,7 @@ builder.Services.AddMediatR(
     (config) =>
     {
         config.RegisterServicesFromAssembly(Assembly.Load("ApplicationLayer"));
+        config.LicenseKey = builder.Configuration["MediatR:LICENSE_KEY"];
     }
 );
 builder.Services.AddControllers();
@@ -25,6 +26,8 @@ builder
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
+            ValidateIssuer = false,
+            ValidateAudience = false,
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)
@@ -37,10 +40,13 @@ builder
             OnChallenge = async context =>
             {
                 context.HandleResponse();
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                if (context.Response.HasStarted)
+                {
+                    return;
+                }
+                context.Response.StatusCode = 401;
                 context.Response.ContentType = "application/json";
-                await context.Response.WriteAsJsonAsync(ErrResponse.UnAuthorized());
-                return;
+                await context.Response.WriteAsJsonAsync(ErrResponse.MissingToken());
             },
             OnAuthenticationFailed = async context =>
             {
@@ -51,20 +57,24 @@ builder
                     await context.Response.WriteAsJsonAsync(ErrResponse.TokenExpired());
                     return;
                 }
+
+                context.Response.StatusCode = 401;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsJsonAsync(ErrResponse.InvalidToken());
             },
-        };
-        options.Events.OnForbidden = async context =>
-        {
-            context.Response.StatusCode = 403;
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsJsonAsync(ErrResponse.Forbidden());
-            return;
+            OnForbidden = async context =>
+            {
+                context.Response.StatusCode = 403;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsJsonAsync(ErrResponse.Forbidden());
+            },
         };
     });
 
 builder.Services.AddAuthorization();
 
 builder.Services.AddSingleton<ICryptService>(new CryptService());
+builder.Services.AddSingleton<ITokenService>(new TokenService(builder.Configuration));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();

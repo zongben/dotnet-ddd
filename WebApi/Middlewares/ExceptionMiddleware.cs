@@ -16,8 +16,12 @@ public class ExceptionMiddleware
         catch (Exception exception)
         {
             Console.WriteLine(exception);
-            context.Response.ContentType = "application/json";
+            if (context.Response.HasStarted)
+            {
+                return;
+            }
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            context.Response.ContentType = "application/json";
             await context.Response.WriteAsJsonAsync(ErrResponse.InternalServerError());
             return;
         }

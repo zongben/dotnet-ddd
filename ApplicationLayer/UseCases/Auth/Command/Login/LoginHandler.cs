@@ -1,8 +1,6 @@
 using MediatR;
 using OneOf;
 
-namespace ApplicationLayer.UseCases.Auth.Command.Login;
-
 public record LoginResult
 {
     public required string Token { get; init; }
@@ -19,11 +17,17 @@ public class LoginHandler
 {
     private readonly IUserRepository _userRepository;
     private readonly ICryptService _cryptService;
+    private readonly ITokenService _tokenService;
 
-    public LoginHandler(IUserRepository userRepository, ICryptService cryptService)
+    public LoginHandler(
+        IUserRepository userRepository,
+        ICryptService cryptService,
+        ITokenService tokenService
+    )
     {
         _userRepository = userRepository;
         _cryptService = cryptService;
+        _tokenService = tokenService;
     }
 
     public async Task<OneOf<OkResult<LoginResult>, ErrResult<ERROR_CODES>>> Handle(
@@ -43,6 +47,7 @@ public class LoginHandler
             return Result.Err(ERROR_CODES.LOGIN_FAILED);
         }
 
-        return Result.Ok(new LoginResult { Token = "" });
+        var token = _tokenService.GenerateToken(new JwtPayload(user.Id.Value, user.UserName));
+        return Result.Ok(new LoginResult { Token = token });
     }
 }

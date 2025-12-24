@@ -1,4 +1,3 @@
-using ApplicationLayer.UseCases.Auth.Command.Register;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +31,24 @@ public class AuthController : ApiControllerBase
             (err) =>
             {
                 return Conflict(new ErrResponse(err));
+            }
+        );
+    }
+
+    [HttpPost("login")]
+    public async Task<ActionResult> Login([FromBody] LoginRequest body)
+    {
+        var command = new LoginCommand() { Account = body.Account, Password = body.Password };
+        var result = await _sender.Send(command);
+
+        return result.Match<ActionResult>(
+            (data) =>
+            {
+                return Ok(new OkResponse<LoginResult>(data));
+            },
+            (err) =>
+            {
+                return Unauthorized(new ErrResponse(err));
             }
         );
     }
