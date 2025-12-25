@@ -4,7 +4,7 @@
 
 ```csharp
 # 安裝EF cli
-dotnet tool install -g dotnet-ef --version 9.*
+dotnet tool install -g dotnet-ef
 
 # 建立資料庫schema
 dotnet ef database update --project InfraLayer/InfraLayer.csproj
