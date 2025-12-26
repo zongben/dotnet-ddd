@@ -14,17 +14,11 @@ public record RegisterCommand : IRequest<OneOf<OkResult<RegisterResult>, ErrResu
     public required string UserName { get; init; }
 }
 
-public class RegisterHandler
-    : IRequestHandler<RegisterCommand, OneOf<OkResult<RegisterResult>, ErrResult<ERROR_CODES>>>
+public class RegisterHandler(IUserRepository userRepository, ICryptService cryptService)
+        : IRequestHandler<RegisterCommand, OneOf<OkResult<RegisterResult>, ErrResult<ERROR_CODES>>>
 {
-    private readonly IUserRepository _userRepository;
-    private readonly ICryptService _cryptService;
-
-    public RegisterHandler(IUserRepository userRepository, ICryptService cryptService)
-    {
-        _userRepository = userRepository;
-        _cryptService = cryptService;
-    }
+    private readonly IUserRepository _userRepository = userRepository;
+    private readonly ICryptService _cryptService = cryptService;
 
     public async Task<OneOf<OkResult<RegisterResult>, ErrResult<ERROR_CODES>>> Handle(
         RegisterCommand request,

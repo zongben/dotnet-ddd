@@ -3,14 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [AllowAnonymous]
-public class AuthController : ApiControllerBase
+public class AuthController(ISender sender) : ApiControllerBase
 {
-    private readonly ISender _sender;
-
-    public AuthController(ISender sender)
-    {
-        _sender = sender;
-    }
+    private readonly ISender _sender = sender;
 
     [HttpPost("register")]
     public async Task<ActionResult> Register([FromBody] RegisterRequest req)

@@ -12,23 +12,16 @@ public record LoginCommand : IRequest<OneOf<OkResult<LoginResult>, ErrResult<ERR
     public required string Password { get; init; }
 }
 
-public class LoginHandler
-    : IRequestHandler<LoginCommand, OneOf<OkResult<LoginResult>, ErrResult<ERROR_CODES>>>
-{
-    private readonly IUserRepository _userRepository;
-    private readonly ICryptService _cryptService;
-    private readonly ITokenService _tokenService;
-
-    public LoginHandler(
-        IUserRepository userRepository,
-        ICryptService cryptService,
-        ITokenService tokenService
+public class LoginHandler(
+    IUserRepository userRepository,
+    ICryptService cryptService,
+    ITokenService tokenService
     )
-    {
-        _userRepository = userRepository;
-        _cryptService = cryptService;
-        _tokenService = tokenService;
-    }
+        : IRequestHandler<LoginCommand, OneOf<OkResult<LoginResult>, ErrResult<ERROR_CODES>>>
+{
+    private readonly IUserRepository _userRepository = userRepository;
+    private readonly ICryptService _cryptService = cryptService;
+    private readonly ITokenService _tokenService = tokenService;
 
     public async Task<OneOf<OkResult<LoginResult>, ErrResult<ERROR_CODES>>> Handle(
         LoginCommand request,

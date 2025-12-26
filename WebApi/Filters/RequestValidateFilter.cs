@@ -2,14 +2,9 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-public class RequestValidateFilter<T> : IActionFilter
+public class RequestValidateFilter<T>(IValidator<T> validator) : IActionFilter
 {
-    private readonly IValidator<T> _validator;
-
-    public RequestValidateFilter(IValidator<T> validator)
-    {
-        _validator = validator;
-    }
+    private readonly IValidator<T> _validator = validator;
 
     public void OnActionExecuting(ActionExecutingContext context)
     {

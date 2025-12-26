@@ -1,11 +1,5 @@
-public class JwtPayload
+public class JwtPayload(string userId, string username)
 {
-    public string UserId { get; }
-    public string UserName { get; }
-
-    public JwtPayload(string userId, string username)
-    {
-        UserId = userId;
-        UserName = username;
-    }
+    public string UserId { get; } = userId;
+    public string UserName { get; } = username;
 }

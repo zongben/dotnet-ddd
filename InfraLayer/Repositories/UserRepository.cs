@@ -1,13 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 
-public class UserRepository : IUserRepository
+public class UserRepository(AppDbContext db) : IUserRepository
 {
-    private AppDbContext _db { get; }
-
-    public UserRepository(AppDbContext db)
-    {
-        _db = db;
-    }
+    private AppDbContext _db { get; } = db;
 
     public async Task<User> Create(User user)
     {

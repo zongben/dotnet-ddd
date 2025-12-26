@@ -1,11 +1,6 @@
-public class OkResponse<T>
+public class OkResponse<T>(OkResult<T> ok)
 {
-    public T? Data { get; }
-
-    public OkResponse(OkResult<T> ok)
-    {
-        Data = ok.Data;
-    }
+    public T? Data { get; } = ok.Data;
 }
 
 public class ErrResponse

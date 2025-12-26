@@ -1,6 +1,4 @@
-public abstract class AggregateRoot<TId> : Entity<TId>
+public abstract class AggregateRoot<TId>(TId id) : Entity<TId>(id)
     where TId : notnull
 {
-    protected AggregateRoot(TId id)
-        : base(id) { }
 }
